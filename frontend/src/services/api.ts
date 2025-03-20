@@ -1,8 +1,11 @@
 import axios from 'axios';
+import { User, Repository, AutomationStatus, CreateRepositoryRequest } from '../types/index';
 
 // Use environment variable for API URL with fallback
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+console.log('API Base URL:', API_BASE_URL);
+console.log('Vite Environment Variables:', import.meta.env);
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
@@ -10,9 +13,6 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// export default api;import axios from 'axios';
-import { User, Repository, AutomationStatus, CreateRepositoryRequest } from '../types/index';
 
 // Create axios instance
 // const api = axios.create({
