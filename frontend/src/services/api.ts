@@ -1,11 +1,24 @@
 import axios from 'axios';
+
+// Use environment variable for API URL with fallback
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// export default api;import axios from 'axios';
 import { User, Repository, AutomationStatus, CreateRepositoryRequest } from '../types/index';
 
 // Create axios instance
-const api = axios.create({
-  baseURL: '/api',
-  withCredentials: true,
-});
+// const api = axios.create({
+//   baseURL: '/api',
+//   withCredentials: true,
+// });
 
 // User API calls
 export const getUserStatus = async (): Promise<User> => {

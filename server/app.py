@@ -20,7 +20,10 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"], allow_headers=["Content-Type", "Authorization"])
+
+# Get allowed origins from environment or use default
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"])
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
 # We've removed the excessive logging here
@@ -101,7 +104,9 @@ def github_callback():
         if user_data and user_data.get("repo_name"):
             commit_scheduler.setup_midnight_scheduler(username, token, user_data["repo_name"])
 
-        return redirect("http://localhost:5173/dashboard")
+        # Get frontend URL from environment or use default
+        FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+        return redirect(f"{FRONTEND_URL}/dashboard")
 
     except Exception as e:
         print(f"Error during GitHub callback: {str(e)}")
