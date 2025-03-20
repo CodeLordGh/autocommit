@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, AutomationStatus, Repository } from '../types';
-import { getAutomationStatus, createRepository } from '../services/api';
+import { getAutomationStatus } from '../services/api';
 import RepositoryForm from '../components/RepositoryForm';
 import StatusCard from '../components/StatusCard';
 import CommitHistory from '../components/CommitHistory';
