@@ -12,11 +12,16 @@ export async function checkServerStatus(baseUrl: string): Promise<{
   const startTime = new Date().getTime();
   
   try {
-    const response = await fetch(`${baseUrl}/`, {
+    // Use a more specific health check endpoint
+    const healthEndpoint = baseUrl.endsWith('/') ? `${baseUrl}api/health` : `${baseUrl}/api/health`;
+
+    const response = await fetch(healthEndpoint, {
       method: 'GET',
       headers: {
         'Accept': 'application/json'
-      }
+      },
+      // Add credentials if needed for cookies/auth
+      credentials: 'include'
     });
     
     const endTime = new Date().getTime();
