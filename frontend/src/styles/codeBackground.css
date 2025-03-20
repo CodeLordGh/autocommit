@@ -1,0 +1,51 @@
+/* Code background animation */
+.code-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  animation: scrollCode 120s linear infinite;
+}
+
+.code-line {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: fadeInCode 0.5s ease forwards;
+  margin-bottom: 0.5rem;
+  white-space: pre;
+}
+
+@keyframes scrollCode {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes fadeInCode {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Add Tailwind dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+.dark {
+  color-scheme: dark;
+}

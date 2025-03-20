@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern cursor styles */
+html {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  transform: translate(-2px, -2px);
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 2l14 14-5 1 1 5-3-6-4 2z'%3E%3C/path%3E%3C/svg%3E");
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.7));
+}
+
+.dark .custom-cursor {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 2l14 14-5 1 1 5-3-6-4 2z'%3E%3C/path%3E%3C/svg%3E");
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+}
+
+.custom-cursor-follower {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  background-color: rgba(59, 130, 246, 0.7);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+  transform: translate(-50%, -50%);
+}
+
+.dark .custom-cursor-follower {
+  background-color: rgba(96, 165, 250, 0.7);
+  box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+}
+
+a, button, input, textarea, select, [role="button"], .clickable {
+  cursor: none !important;
+}
+
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor,
+input:hover ~ .custom-cursor,
+textarea:hover ~ .custom-cursor,
+select:hover ~ .custom-cursor,
+[role="button"]:hover ~ .custom-cursor,
+.clickable:hover ~ .custom-cursor {
+  transform: translate(-2px, -2px) scale(1.2);
+  opacity: 1;
+}
+
+a:hover ~ .custom-cursor-follower,
+button:hover ~ .custom-cursor-follower,
+input:hover ~ .custom-cursor-follower,
+textarea:hover ~ .custom-cursor-follower,
+select:hover ~ .custom-cursor-follower,
+[role="button"]:hover ~ .custom-cursor-follower,
+.clickable:hover ~ .custom-cursor-follower {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(59, 130, 246, 0.9);
+}
+
+.dark a:hover ~ .custom-cursor-follower,
+.dark button:hover ~ .custom-cursor-follower,
+.dark input:hover ~ .custom-cursor-follower,
+.dark textarea:hover ~ .custom-cursor-follower,
+.dark select:hover ~ .custom-cursor-follower,
+.dark [role="button"]:hover ~ .custom-cursor-follower,
+.dark .clickable:hover ~ .custom-cursor-follower {
+  background-color: rgba(96, 165, 250, 0.9);
+}
+
+.custom-cursor.scale-90 {
+  transform: translate(-2px, -2px) scale(0.9);
+  opacity: 1;
+}
+
+.custom-cursor-follower.scale-75 {
+  transform: translate(-50%, -50%) scale(0.75);
+  width: 4px;
+  height: 4px;
+}
+
+/* Fallback for mobile devices */
+@media (max-width: 768px) {
+  html {
+    cursor: auto;
+  }
+
+  .custom-cursor,
+  .custom-cursor-follower {
+    display: none;
+  }
+
+  a, button, input, textarea, select, [role="button"], .clickable {
+    cursor: pointer !important;
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-md transition-colors;
+}
+
+.input {
+  @apply block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm py-2 px-3 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent; /* gray-300 and transparent */
+}
+
+.dark .custom-scrollbar {
+  scrollbar-color: #4b5563 transparent; /* gray-600 and transparent */
+}
