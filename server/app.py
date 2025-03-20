@@ -20,7 +20,6 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-
 # Get allowed origins from environment or use default
 ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"])
@@ -104,9 +103,7 @@ def github_callback():
         if user_data and user_data.get("repo_name"):
             commit_scheduler.setup_midnight_scheduler(username, token, user_data["repo_name"])
 
-        # Get frontend URL from environment or use default
-        FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
-        return redirect(f"{FRONTEND_URL}/dashboard")
+        return redirect("http://localhost:5173/dashboard")
 
     except Exception as e:
         print(f"Error during GitHub callback: {str(e)}")
