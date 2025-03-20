@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const LoginPage: React.FC = () => {
+  const [apiBaseUrl, setApiBaseUrl] = useState(import.meta.env.VITE_API_BASE_URL);
+
+  useEffect(() => {
+    // Log the API base URL for debugging
+    console.log('API Base URL:', apiBaseUrl);
+  }, [apiBaseUrl]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4">
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-lg w-full text-center">
@@ -14,7 +21,7 @@ const LoginPage: React.FC = () => {
             Sign in with your GitHub account to get started
           </p>
           <a
-            href="/api/github/login"
+            href={`${apiBaseUrl}/api/github/login`}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full"
           >
             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
