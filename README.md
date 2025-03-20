@@ -108,9 +108,61 @@ A full-stack application with a React frontend and Flask backend that automates 
 3. Use environment variables for all sensitive information
 4. Never commit `.env` files to the repository
 
-## Deploying to Vercel
+## Deployment Options
 
-### Prerequisites
+### Option 1: Deploying to Render
+
+#### Prerequisites
+
+1. Create a Render account at [render.com](https://render.com)
+2. Connect your GitHub account to Render
+
+#### Backend Deployment Steps
+
+1. In the Render dashboard, click "New" and select "Web Service"
+2. Connect your GitHub repository
+3. Configure the service:
+   - Name: auto-commit-backend (or your preferred name)
+   - Root Directory: server
+   - Environment: Python
+   - Build Command: `pip install -r requirements-deploy.txt`
+   - Start Command: `bash ./start.sh`
+   - Select the appropriate plan (Free tier is available)
+
+   > **Important**: If you encounter the "gunicorn: command not found" error, make sure you're using the `start.sh` script as your start command, which ensures gunicorn is properly installed.
+
+4. Add environment variables:
+   - Click on "Environment" tab
+   - Add all variables from your `.env` file:
+     - FLASK_SECRET_KEY
+     - GITHUB_CLIENT_ID
+     - GITHUB_CLIENT_SECRET
+     - GITHUB_REDIRECT_URI (use your Render URL: https://your-backend.onrender.com/api/github/callback)
+     - GITHUB_WEBHOOK_SECRET
+     - WEBHOOK_URL (use your Render URL: https://your-backend.onrender.com/api/github/webhook)
+     - FRONTEND_URL (your frontend URL)
+     - ALLOWED_ORIGINS (comma-separated list including your frontend URL)
+
+5. Click "Create Web Service"
+
+#### Frontend Deployment Steps
+
+1. In the Render dashboard, click "New" and select "Static Site"
+2. Connect your GitHub repository
+3. Configure the service:
+   - Name: auto-commit-frontend (or your preferred name)
+   - Root Directory: frontend
+   - Build Command: `npm install && npm run build`
+   - Publish Directory: dist
+
+4. Add environment variables:
+   - VITE_API_BASE_URL (your backend Render URL: https://your-backend.onrender.com)
+
+5. Click "Create Static Site"
+
+### Option 2: Deploying to Vercel
+
+#### Prerequisites
 
 1. Create a Vercel account at [vercel.com](https://vercel.com)
 2. Install the Vercel CLI:
@@ -118,7 +170,7 @@ A full-stack application with a React frontend and Flask backend that automates 
    npm install -g vercel
    ```
 
-### Deployment Steps
+#### Deployment Steps
 
 1. Login to Vercel:
    ```bash
@@ -132,7 +184,7 @@ A full-stack application with a React frontend and Flask backend that automates 
 
 3. Follow the prompts to configure your project.
 
-### Setting Environment Variables in Vercel
+#### Setting Environment Variables in Vercel
 
 1. Go to your project on the Vercel dashboard
 2. Navigate to Settings > Environment Variables
