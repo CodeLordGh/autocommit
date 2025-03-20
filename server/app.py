@@ -25,6 +25,20 @@ ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").spl
 CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"])
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
+@app.route('/')
+def root():
+    """Root endpoint to check if server is available"""
+    return jsonify({
+        "status": "success",
+        "message": "Server available",
+        "timestamp": datetime.datetime.now().isoformat()
+    })
+
+@app.route('/test')
+def test_page():
+    """Serve the test HTML page"""
+    return app.send_static_file('test.html')
+
 # We've removed the excessive logging here
 
 # GitHub OAuth configuration
@@ -379,6 +393,9 @@ def initialize_app():
             print(f"Error during recovery attempt: {str(e2)}")
             # Continue despite errors
 
+# Initialize the app when this module is imported
+initialize_app()
+
 if __name__ == "__main__":
-    initialize_app()
+    # Only run the development server when this file is executed directly
     app.run(debug=True, port=5000)

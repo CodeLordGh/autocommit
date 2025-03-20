@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .status-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server Status Check</h1>
+    <p>Use this page to check if your Flask server is running and responding to requests.</p>
+    
+    <div>
+        <label for="serverUrl">Server URL:</label>
+        <input type="text" id="serverUrl" value="" style="width: 300px; padding: 5px;" placeholder="https://your-backend.onrender.com">
+        <button onclick="checkServerStatus()">Check Status</button>
+    </div>
+    
+    <div id="statusContainer" style="display: none;" class="status-container">
+        <h2>Status: <span id="statusText"></span></h2>
+        <p id="statusMessage"></p>
+        <p>Response time: <span id="responseTime"></span></p>
+        <h3>Response Details:</h3>
+        <pre id="responseDetails"></pre>
+    </div>
+    
+    <script>
+        // Try to set default URL based on current location
+        window.onload = function() {
+            // If we're on the actual server, use the base URL
+            if (window.location.hostname.includes('onrender.com') || 
+                window.location.hostname.includes('localhost')) {
+                document.getElementById('serverUrl').value = window.location.origin;
+            }
+        };
+        
+        async function checkServerStatus() {
+            const statusContainer = document.getElementById('statusContainer');
+            const statusText = document.getElementById('statusText');
+            const statusMessage = document.getElementById('statusMessage');
+            const responseTime = document.getElementById('responseTime');
+            const responseDetails = document.getElementById('responseDetails');
+            const serverUrl = document.getElementById('serverUrl').value.trim();
+            
+            if (!serverUrl) {
+                alert('Please enter a server URL');
+                return;
+            }
+            
+            statusContainer.style.display = 'none';
+            statusContainer.className = 'status-container';
+            
+            try {
+                const startTime = new Date().getTime();
+                
+                const response = await fetch(serverUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const endTime = new Date().getTime();
+                const timeTaken = endTime - startTime;
+                
+                const data = await response.json();
+                
+                statusContainer.style.display = 'block';
+                
+                if (response.ok) {
+                    statusContainer.classList.add('success');
+                    statusText.textContent = 'Online';
+                    statusMessage.textContent = data.message || 'Server is responding correctly';
+                } else {
+                    statusContainer.classList.add('error');
+                    statusText.textContent = 'Error';
+                    statusMessage.textContent = data.message || 'Server returned an error';
+                }
+                
+                responseTime.textContent = `${timeTaken}ms`;
+                responseDetails.textContent = JSON.stringify(data, null, 2);
+                
+            } catch (error) {
+                statusContainer.style.display = 'block';
+                statusContainer.classList.add('error');
+                statusText.textContent = 'Offline';
+                statusMessage.textContent = `Failed to connect to the server: ${error.message}`;
+                responseTime.textContent = 'N/A';
+                responseDetails.textContent = error.toString();
+            }
+        }
+    </script>
+</body>
+</html>
