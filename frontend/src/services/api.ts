@@ -8,10 +8,13 @@ console.log('API Base URL:', API_BASE_URL);
 console.log('Vite Environment Variables:', import.meta.env);
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true,
+  withCredentials: true, // This is crucial for sending cookies
   headers: {
     'Content-Type': 'application/json',
   },
+  // Ensure cookies are sent with every request
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
 });
 
 // Create axios instance

@@ -20,16 +20,25 @@ function App() {
     const checkAuthStatus = async () => {
       try {
         setLoading(true);
+        console.log('Checking authentication status...');
         const userData = await getUserStatus();
+        console.log('Authentication status:', userData);
         setUser(userData);
       } catch (error) {
+        console.error('Authentication check failed:', error);
         setUser(null);
       } finally {
         setLoading(false);
       }
     };
 
-    checkAuthStatus();
+    // Add a small delay when checking after a route change to ensure
+    // the server has time to process the session
+    const timer = setTimeout(() => {
+      checkAuthStatus();
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [location.pathname]); // Re-check auth status when route changes (e.g., after login redirect)
 
   if (loading) {

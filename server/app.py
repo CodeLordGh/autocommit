@@ -25,6 +25,12 @@ ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").spl
 CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"])
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
+# Configure session to be more secure and work with CORS
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production with HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Use 'None' for cross-site requests with HTTPS
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)  # Session lasts 7 days
+
 @app.route('/')
 def root():
     """Root endpoint to check if server is available"""

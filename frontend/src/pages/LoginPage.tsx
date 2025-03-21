@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const LoginPage: React.FC = () => {
   const [apiBaseUrl, setApiBaseUrl] = useState(import.meta.env.VITE_API_BASE_URL);
+  // const apiBaseUrl = "http://localhost:5000"
 
   useEffect(() => {
     // Log the API base URL for debugging
@@ -21,7 +22,7 @@ const LoginPage: React.FC = () => {
             Sign in with your GitHub account to get started
           </p>
           <a
-            href={`${apiBaseUrl}/api/github/login`}
+            href={`${apiBaseUrl}/github/login`}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full"
           >
             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
