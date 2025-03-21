@@ -22,7 +22,10 @@ load_dotenv()
 app = Flask(__name__)
 # Get allowed origins from environment or use default
 ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
-CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"])
+# Ensure origins are properly stripped of whitespace
+ALLOWED_ORIGINS = [origin.strip() for origin in ALLOWED_ORIGINS]
+print(f"Configured CORS with allowed origins: {ALLOWED_ORIGINS}")
+CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"], expose_headers=["Content-Type"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
 # Configure session to be more secure and work with CORS
