@@ -51,6 +51,7 @@ def test_page():
 GITHUB_CLIENT_ID = os.environ.get("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET")
 GITHUB_REDIRECT_URI = os.environ.get("GITHUB_REDIRECT_URI")
+FRONTEND_URL = os.environ.get("FRONTEND_URL")
 GITHUB_AUTH_URL = "https://github.com/login/oauth/authorize"
 GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
 
@@ -123,7 +124,7 @@ def github_callback():
         if user_data and user_data.get("repo_name"):
             commit_scheduler.setup_midnight_scheduler(username, token, user_data["repo_name"])
 
-        return redirect("http://localhost:5173/dashboard")
+        return redirect(FRONTEND_URL)
 
     except Exception as e:
         print(f"Error during GitHub callback: {str(e)}")
