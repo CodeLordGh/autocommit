@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const LoginPage: React.FC = () => {
-  const apiBaseUrl = useState(import.meta.env.VITE_API_BASE_URL);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   // const apiBaseUrl = "http://localhost:5000"
 
   useEffect(() => {
