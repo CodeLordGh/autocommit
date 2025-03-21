@@ -16,7 +16,6 @@ const api = axios.create({
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
 });
-
 // Create axios instance
 // const api = axios.create({
 //   baseURL: '/api',
