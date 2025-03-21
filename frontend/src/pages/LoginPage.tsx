@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const LoginPage: React.FC = () => {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   // const apiBaseUrl = "http://localhost:5000"
-
-  useEffect(() => {
-    // Log the API base URL for debugging
-    console.log('API Base URL:', apiBaseUrl);
-  }, [apiBaseUrl]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4">

@@ -124,7 +124,7 @@ def github_callback():
         if user_data and user_data.get("repo_name"):
             commit_scheduler.setup_midnight_scheduler(username, token, user_data["repo_name"])
 
-        return redirect(FRONTEND_URL)
+        return redirect(f"{FRONTEND_URL}/dashboard")
 
     except Exception as e:
         print(f"Error during GitHub callback: {str(e)}")
