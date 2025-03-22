@@ -87,7 +87,7 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
     <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Recent Commits</h2>
 
-      {commits.length === 0 ? (
+      {Array.isArray(commits) && commits.length === 0 ? (
         <p className="text-gray-500 dark:text-gray-400">No commits found in this repository yet.</p>
       ) : (
         <div className="max-h-80 overflow-y-auto pr-2 custom-scrollbar">
