@@ -24,33 +24,89 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
   useEffect(() => {
     const fetchCommits = async () => {
       try {
+        console.log('Fetching commits from API for:', username, repoName);
+        
         // First try our database API
-        const response = await axios.get('/api/commits', { withCredentials: true });
-        if (response.data && response.data.length > 0) {
+        const response = await axios.get('/api/commits', { 
+          withCredentials: true,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        // Log the raw response for debugging
+        console.log('API Response:', {
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+          data: response.data,
+          dataType: typeof response.data,
+          isArray: Array.isArray(response.data)
+        });
+        
+        // Check if the response is valid JSON data
+        if (response.data && typeof response.data === 'object' && Array.isArray(response.data)) {
+          console.log('Valid commits array received, length:', response.data.length);
           setCommits(response.data);
         } else {
-          // Fallback to GitHub API for public repos
-          const githubResponse = await axios.get(
-            `https://api.github.com/repos/${username}/${repoName}/commits`,
-            { params: { per_page: 10 } }
-          );
-          
-          // Transform GitHub API response to match our format
-          const transformedCommits = githubResponse.data.map((item: any) => ({
-            id: item.sha,
-            username,
-            repo_name: repoName,
-            commit_sha: item.sha,
-            commit_message: item.commit.message,
-            commit_url: item.html_url,
-            timestamp: item.commit.author.date
-          }));
-          
-          setCommits(transformedCommits);
+          console.error('Invalid response format:', response.data);
+          // If we got an invalid response, throw an error to trigger the fallback
+          throw new Error('Invalid response format from server');
         }
       } catch (err) {
-        setError('Failed to load commit history');
-        console.error('Error fetching commits:', err);
+        console.error('Error fetching commits from our API:', err);
+        
+        if (axios.isAxiosError(err)) {
+          console.log('Axios error details:', {
+            status: err.response?.status,
+            statusText: err.response?.statusText,
+            responseData: err.response?.data,
+            responseHeaders: err.response?.headers,
+            message: err.message
+          });
+        }
+        
+        // Fallback to GitHub API for public repos
+        try {
+          if (username && repoName) {
+            console.log('Falling back to GitHub API');
+            const githubResponse = await axios.get(
+              `https://api.github.com/repos/${username}/${repoName}/commits`,
+              { params: { per_page: 10 } }
+            );
+            
+            console.log('GitHub API Response:', {
+              status: githubResponse.status,
+              dataLength: githubResponse.data.length
+            });
+            
+            // Transform GitHub API response to match our format
+            const transformedCommits = githubResponse.data.map((item: any) => ({
+              id: item.sha,
+              username,
+              repo_name: repoName,
+              commit_sha: item.sha,
+              commit_message: item.commit.message,
+              commit_url: item.html_url,
+              timestamp: item.commit.author.date
+            }));
+            
+            setCommits(transformedCommits);
+          } else {
+            setError('Repository information is missing');
+          }
+        } catch (githubErr) {
+          setError('Failed to load commit history');
+          console.error('Error fetching commits from GitHub:', githubErr);
+          
+          if (axios.isAxiosError(githubErr)) {
+            console.log('GitHub API error details:', {
+              status: githubErr.response?.status,
+              statusText: githubErr.response?.statusText,
+              responseData: githubErr.response?.data
+            });
+          }
+        }
       } finally {
         setLoading(false);
       }
@@ -58,6 +114,9 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
 
     if (username && repoName) {
       fetchCommits();
+    } else {
+      setLoading(false);
+      setError('Repository information is missing');
     }
   }, [username, repoName]);
 

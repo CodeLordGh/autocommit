@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4">
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-lg w-full text-center">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">GitHub Automation</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">KCommit</h1>
         <p className="text-gray-600 dark:text-gray-300 mb-8">
           Create GitHub repositories and automate daily commits to maintain your activity graph.
         </p>
