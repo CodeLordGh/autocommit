@@ -8,6 +8,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import LandingPage from './pages/LandingPage';
+import TermsOfUsePage from './pages/TermsOfUsePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import Header from './components/Header';
 import CustomCursor from './components/CustomCursor';
 
@@ -62,6 +64,8 @@ function App() {
             path="/dashboard"
             element={user?.authenticated ? <DashboardPage user={user} /> : <Navigate to="/login" />}
           />
+          <Route path="/terms" element={<TermsOfUsePage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
         </Routes>
       </div>
     </ThemeProvider>

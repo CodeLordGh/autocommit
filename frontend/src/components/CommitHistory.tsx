@@ -81,7 +81,7 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6" style={{ cursor: 'default' }}>
         <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Recent Commits</h2>
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
