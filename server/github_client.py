@@ -199,7 +199,7 @@ class GitHubClient:
             
             # Create a new blob with updated content
             date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            new_content = f"# Auto Commit App\n\nThis repository is maintained by the Auto Commit App.\n\nLast updated: {date_str}"
+            new_content = f"# KCommit\n\nThis repository is maintained by the Auto Commit App.\n\nLast updated: {date_str}"
             
             blob_data, status_code = self._make_request(
                 "POST",

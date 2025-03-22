@@ -247,7 +247,7 @@ def create_repository():
         commit_scheduler.setup_daily_commits(username, token, repo_name)
 
         # Make initial commit
-        commit_message = "Initial commit from Auto Commit App"
+        commit_message = "Initial commit from KCommit"
         commit_data, success, commit_sha = github_client.make_commit(
             username=username,
             repo_name=repo_name,
