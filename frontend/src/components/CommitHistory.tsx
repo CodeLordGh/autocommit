@@ -61,6 +61,9 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
     }
   }, [username, repoName]);
 
+  console.log(commits); // Log the commits to the console
+  !Array.isArray(commits) && console.error('Commits is not an array:', commits);
+
   if (loading) {
     return (
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
@@ -92,7 +95,9 @@ const CommitHistory: React.FC<CommitHistoryProps> = ({ username, repoName }) => 
       ) : (
         <div className="max-h-80 overflow-y-auto pr-2 custom-scrollbar">
           <div className="space-y-4">
-            {commits.map((commit) => (
+            
+            {/* Map over the commits and render them */}
+            {Array.isArray(commits) && commits.map((commit) => (
               <div key={commit.commit_sha} className="border-b dark:border-gray-700 pb-4 last:border-b-0">
                 <div className="flex justify-between">
                   <a
