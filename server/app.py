@@ -25,7 +25,11 @@ ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173").spl
 # Ensure origins are properly stripped of whitespace
 ALLOWED_ORIGINS = [origin.strip() for origin in ALLOWED_ORIGINS]
 print(f"Configured CORS with allowed origins: {ALLOWED_ORIGINS}")
-CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization"], expose_headers=["Content-Type"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+# Make sure to include https://kcommit.vercel.app in allowed origins
+if "https://kcommit.vercel.app" not in ALLOWED_ORIGINS:
+    ALLOWED_ORIGINS.append("https://kcommit.vercel.app")
+print(f"Final CORS allowed origins: {ALLOWED_ORIGINS}")
+CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type", "Authorization", "X-Requested-With"], expose_headers=["Content-Type"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
 # Configure session to be more secure and work with CORS
