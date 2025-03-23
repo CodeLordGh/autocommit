@@ -164,6 +164,7 @@ def store_user_token(username: str, token: str, repo_name: Optional[str] = None,
                 '''UPDATE users SET token = ? WHERE username = ?''',
                 (token, username)
             )
+            print(f"Updated token for {username} while preserving existing repository {existing_user['repo_name']}")
         else:
             # Either user doesn't exist, or we're explicitly setting a new repo_name
             cursor.execute(
@@ -191,6 +192,7 @@ def get_user_token(username: str) -> Optional[Dict[str, Any]]:
         Dictionary with token, repo_name, and webhook_secret, or None if not found
     """
     try:
+        print(f"Getting token and repository data for user: {username}")
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
@@ -200,8 +202,11 @@ def get_user_token(username: str) -> Optional[Dict[str, Any]]:
         conn.close()
 
         if user_data:
-            return dict(user_data)
+            result = dict(user_data)
+            print(f"Retrieved user data for {username}: repo_name={result.get('repo_name')}")
+            return result
         else:
+            print(f"No user data found for {username}")
             return None
 
     except Exception as e:

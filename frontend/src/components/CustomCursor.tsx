@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-const CustomCursor: React.FC = () => {
+interface CustomCursorProps {
+  loading?: boolean;
+}
+
+const CustomCursor: React.FC<CustomCursorProps> = ({ loading = false }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [followerPosition, setFollowerPosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
@@ -15,7 +19,7 @@ const CustomCursor: React.FC = () => {
     };
 
     const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseLeave = () => loading ? setIsVisible(true) : setIsVisible(false);
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
@@ -41,7 +45,7 @@ const CustomCursor: React.FC = () => {
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
-          opacity: isVisible ? 1 : 0
+          opacity: loading || isVisible ? 1 : 0
         }}
       />
       <div
@@ -49,7 +53,7 @@ const CustomCursor: React.FC = () => {
         style={{
           left: `${followerPosition.x}px`,
           top: `${followerPosition.y}px`,
-          opacity: isVisible ? 1 : 0
+          opacity: loading || isVisible ? 1 : 0
         }}
       />
     </>

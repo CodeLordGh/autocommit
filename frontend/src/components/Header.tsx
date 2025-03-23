@@ -28,7 +28,9 @@ const Header: React.FC<HeaderProps> = ({ user, setUser }) => {
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="text-xl font-bold text-blue-600 dark:text-blue-400 clickable">
-              KCommit
+            <div className="flex justify-center">
+          <img src="/trace (1).svg" alt="KCommit Logo" className="h-16" />
+        </div>
             </Link>
           </div>
 

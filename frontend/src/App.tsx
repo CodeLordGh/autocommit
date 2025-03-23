@@ -45,17 +45,26 @@ function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-      </div>
+      <ThemeProvider>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+          <CustomCursor loading={loading} />
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          </div>
+        </div>
+      </ThemeProvider>
     );
   }
+
+  // Define paths where header should be hidden
+  const hideHeaderPaths = ["/login", "/signup", "/terms", "/privacy"];
+  const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
 
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-        <CustomCursor />
-        <Header user={user} setUser={setUser} />
+        <CustomCursor loading={loading} />
+        {shouldShowHeader && <Header user={user} setUser={setUser} />}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={user?.authenticated ? <Navigate to="/dashboard" /> : <LoginPage />} />
